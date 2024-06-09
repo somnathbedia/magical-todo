@@ -8,14 +8,20 @@ function App() {
   const [todos, setTodos] = useState<Itodos[]>(getTodos);
 
   useEffect(() => {
-    saveToStorage(todos);
+    
     const mediumDevice = window.matchMedia("(max-width: 768px)");
 
     if (mediumDevice.matches) {
       alert("Please open on a large window or Change to Desktop Mode!");
+      deleteLocalDb();
       return;
     }
+    saveToStorage(todos);
   }, [todos]);
+
+  const deleteLocalDb = () => {
+    localStorage.removeItem("todos");
+  }
 
   const deleteTodo = (todoId: number) => {
     const newTodos = todos.filter((todo) => todo.id !== todoId);
